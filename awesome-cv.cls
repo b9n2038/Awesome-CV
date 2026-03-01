@@ -81,30 +81,65 @@
 \defaultfontfeatures{
   Renderer=HarfBuzz,
 }
-\setmainfont{Source Sans 3}[
-  UprightFont=*,
-  ItalicFont=* Italic,
-  BoldFont=* Bold,
-  BoldItalicFont=* Bold Italic,
-  FontFace={l}{n}{Font=* Light},
-  FontFace={l}{it}{Font=* Light Italic},
+
+\ifxetex
+  \typeout{XeLaTeX detected - fontspec will work}
+\fi
+
+% \setmainfont{SourceSans3}[  % Matches family name from fc-list
+%   ItalicFont = "Source Sans 3 Italic",
+%   FontWeight = 200-900,
+%   Renderer = OpenType
+% ]
+
+% using manual install
+\setmainfont{SourceSans3-Regular.ttf}[
+  Path = fonts/,
+  ItalicFont = SourceSans3-It.ttf,
+  BoldFont   = SourceSans3-Bold.ttf
 ]
-\setsansfont{Source Sans 3}[
-  UprightFont=*,
-  ItalicFont=* Italic,
-  BoldFont=* Bold,
-  BoldItalicFont=* Bold Italic,
-  FontFace={l}{n}{Font=* Light},
-  FontFace={l}{it}{Font=* Light Italic},
+\newfontfamily\roboto{Roboto.ttf}[
+  Path = fonts/,
+  ItalicFont = Roboto-Italic.ttf
 ]
-\newfontfamily\roboto{Roboto}[
-  UprightFont=*,
-  ItalicFont=* Italic,
-  BoldFont=* Bold,
-  BoldItalicFont=* Bold Italic,
-  FontFace={l}{n}{Font=* Light},
-  FontFace={l}{it}{Font=* Light Italic},
-]
+
+% \setmainfont{/Fonts/SourceSans3-Italic[wght].ttf}[
+%   UprightFont = *,
+%   ItalicFont = *,
+%   FontWeight = 200-900,
+%   Renderer = OpenType
+% ]
+
+% \setsansfont{"Source Sans 3"}[  % Matches family name from fc-list
+%   ItalicFont = "Source Sans 3 Italic",
+%   FontWeight = 200-900,
+%   Renderer = OpenType
+% ]
+
+% \setmainfont{Source Sans 3}[
+%   UprightFont=*,
+%   ItalicFont=* Italic,
+%   BoldFont=* Bold,
+%   BoldItalicFont=* Bold Italic,
+%   FontFace={l}{n}{Font=* Light},
+%   FontFace={l}{it}{Font=* LightItalic},
+% ]
+% \setsansfont{Source Sans 3}[
+%   UprightFont=*,
+%   ItalicFont=* Italic,
+%   BoldFont=* Bold,
+%   BoldItalicFont=* Bold Italic,
+%   FontFace={l}{n}{Font=* Light},
+%   FontFace={l}{it}{Font=* LightItalic},
+% ]
+% \newfontfamily\roboto{Roboto}[
+%   UprightFont=*,
+%   ItalicFont=* Italic,
+%   BoldFont=* Bold,
+%   BoldItalicFont=* Bold Italic,
+%   FontFace={l}{n}{Font=* },
+%   % FontFace={l}{it}{Font=* Light},
+% ]
 % Needed for the photo ID
 \RequirePackage[skins]{tcolorbox}
 % Needed to deal a paragraphs
@@ -175,11 +210,11 @@
 \definecolor{awesome-nephritis}{HTML}{27AE60}
 \definecolor{awesome-concrete}{HTML}{95A5A6}
 \definecolor{awesome-darknight}{HTML}{131A28}
-\colorlet{awesome}{awesome-red}
+\colorlet{awesome}{awesome-darknight}
 
 % Boolean value to switch section color highlighting
 \newbool{acvSectionColorHighlight}
-\setbool{acvSectionColorHighlight}{true}
+\setbool{acvSectionColorHighlight}{false}
 
 %-------------------------------------------------------------------------------
 %                Configuration for fonts
@@ -206,7 +241,7 @@
 \newcommand*{\sectionstyle}[1]{%
   \def\@acvSectionTmp{#1}
   \ifthenelse{\boolean{acvSectionColorHighlight}}{%
-    \StrSplit{\@acvSectionTmp}{3}{\acvSectionStringAwesome}{\acvSectionStringPlain}%
+    \StrSplit{\@acvSectionTmp}{0}{\acvSectionStringAwesome}{\acvSectionStringPlain}%
       \color{awesome}\sectionstyleface{\acvSectionStringAwesome%
       \color{text}{\acvSectionStringPlain}}}%
       {\color{text}\sectionstyleface{\@acvSectionTmp}}}
@@ -217,7 +252,7 @@
 \newcommand*{\entrytitlestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{darktext} #1}}
 \newcommand*{\entrypositionstyle}[1]{{\fontsize{8pt}{1em}\bodyfont\scshape\color{graytext} #1}}
 \newcommand*{\entrydatestyle}[1]{{\fontsize{8pt}{1em}\bodyfontlight\slshape\color{graytext} #1}}
-\newcommand*{\entrylocationstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{awesome} #1}}
+\newcommand*{\entrylocationstyle}[1]{{\fontsize{8pt}{1em}\bodyfontlight\slshape\color{lighttext} #1}}
 \newcommand*{\descriptionstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\upshape\color{text} #1}}
 
 % For elements of subentry
@@ -231,7 +266,7 @@
 \newcommand*{\honortitlestyle}[1]{{\fontsize{9pt}{1em}\bodyfont\color{graytext} #1}}
 \newcommand*{\honorpositionstyle}[1]{{\fontsize{9pt}{1em}\bodyfont\bfseries\color{darktext} #1}}
 \newcommand*{\honordatestyle}[1]{{\fontsize{9pt}{1em}\bodyfont\color{graytext} #1}}
-\newcommand*{\honorlocationstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{awesome} #1}}
+\newcommand*{\honorlocationstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{darktext} #1}}
 
 % For elements of skill
 \newcommand*{\skilltypestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{darktext} #1}}
@@ -699,7 +734,7 @@
 % Usage: \makecvfooter{<left>}{<center>}{<right>}
 \newcommand*{\makecvfooter}[3]{%
   \fancyfoot{}
-  \fancyfoot[L]{\footerstyle{#1}}
+  % \fancyfoot[L]{\footerstyle{#1}}
   \fancyfoot[C]{\footerstyle{#2}}
   \fancyfoot[R]{\footerstyle{#3}}
 }
@@ -739,20 +774,23 @@
 }{%
   \end{center}
 }
+
 % Define an entry of cv information
 % Usage: \cventry{<position>}{<title>}{<location>}{<date>}{<description>}
-\newcommand*{\cventry}[5]{%
-  \vspace{-2.0mm}
-  \setlength\tabcolsep{0pt}
-  \setlength{\extrarowheight}{0pt}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
-    \ifempty{#2#3}
-      {\entrypositionstyle{#1} & \entrydatestyle{#4} \\}
-      {\entrytitlestyle{#2} & \entrylocationstyle{#3} \\
-      \entrypositionstyle{#1} & \entrydatestyle{#4} \\}
-    \ifstrempty{#5}
-      {}
-      {\multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}} \\}
+% \cventry{Developer}{Company}{City}{2020--2023}{Summary text here}{\begin{cvitems} \item Bullet 1 \item Bullet 2 \end{cvitems}}
+% \cventry{Developer}{Company}{City}{2020--2023}{}{Summary only -- no bullets}
+% \cventry{Developer}{Company}{City}{2020--2023}{}{\begin{cvitems} \item Only bullets \end{cvitems}}
+% \cventry{Developer}{Company}{City}{2020--2023}{}{}  % no summary, no bullets
+
+\newcommand*{\cventry}[6]{%
+  \vspace{-2.0mm}%
+  \setlength\tabcolsep{0pt}%
+  \setlength{\extrarowheight}{0pt}%
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}%
+    \parbox[t]{\dimexpr\textwidth-5cm}{\entrytitlestyle{#2}} & \entrydatestyle{#4} \\  % company & date
+    \entrypositionstyle{#1} & \entrylocationstyle{#3} \\                       % position & location
+    \descriptionstyle{#5} \\
+    \ifstrempty{#6}{}{\multicolumn{2}{L{\textwidth}}{\descriptionstyle{#6}} \\}%
   \end{tabular*}%
 }
 
